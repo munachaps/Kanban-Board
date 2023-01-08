@@ -2,8 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\StatusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,29 +14,20 @@ use App\Http\Controllers\StatusController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Auth::routes();
+//  Board API Routes
+Route::get('boards/{user_id}', 'BoardController@index');
+Route::get('board/{id}/{user_id}', 'BoardController@show');
+Route::post('board/{user_id}', 'BoardController@store');
+Route::put('board/{user_id}', 'BoardController@update');
+Route::delete('board/{id}/{user_id}', 'BoardController@destroy');
 
-Route::get('/home', function () {
-    return redirect()->route('tasks.index');
-})->name('home');
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('tasks', 'App\Http\Controllers\TaskController@index')->name('tasks.index');
-    Route::get('addtask', 'App\Http\Controllers\TaskController@addtask')->name('addtask');
-    Route::post('tasks', 'App\Http\Controllers\TaskController@store')->name('tasks.store');
-    Route::put('tasks/sync', 'App\Http\Controllers\TaskController@sync')->name('tasks.sync');
-    Route::put('tasks/{task}', 'App\Http\Controllers\TaskController@update')->name('tasks.update');
-});
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::post('statuses', 'App\Http\Controllers\StatusController@store')->name('statuses.store');
-    Route::put('statuses', 'App\Http\Controllers\StatusController@update')->name('statuses.update');
-});
-
+//  Task API Routes
+Route::get('tasks/{user_id}', 'TaskController@index');
+Route::get('task/{id}/{user_id}', 'TaskController@show');
+Route::post('task/{user_id}', 'TaskController@store');
+Route::put('task/{user_id}', 'TaskController@update');
+Route::delete('task/{id}/{user_id}', 'TaskController@destroy');
