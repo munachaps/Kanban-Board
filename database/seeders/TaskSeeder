@@ -1,0 +1,25 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class TaskSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $tasks = [
+            ["title" => "Test","description" => "We are testing", "created_at" => now(), "updated_at" => now()],
+           
+        ];
+
+        DB::table('tasks')->insert($tasks);
+    }
+}
